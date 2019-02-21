@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets network
 CONFIG += c++14
 
 QMAKE_CXXFLAGS_DEBUG += -pg
@@ -15,6 +15,7 @@ TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+LIBS += -lws2_32
 
 ######################################################################
 # paths for building
@@ -35,6 +36,8 @@ SOURCES += \
     Application.cpp \
     ManagementLayer/AbstractViewManager.cpp \
     ManagementLayer/ApplicationManager.cpp \
+    ManagementLayer/NetworkManager.cpp \
+    NetworkLayer/Sniffer.cpp \
     ViewLayer/ApplicationView.cpp
 
 
@@ -43,5 +46,7 @@ HEADERS += \
     Application.h \
     ManagementLayer/AbstractViewManager.h \
     ManagementLayer/ApplicationManager.h \
+    ManagementLayer/NetworkManager.h \
+    NetworkLayer/Sniffer.h \
     ViewLayer/ApplicationView.h \
     ViewLayer/ApplicationViewPrivate.h

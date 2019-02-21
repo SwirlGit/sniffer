@@ -9,6 +9,10 @@ namespace ViewLayer {
 class ApplicationView;
 }
 
+namespace ManagementLayer {
+class NetworkManager;
+}
+
 namespace ManagementLayer
 {
 /**
@@ -37,6 +41,11 @@ private:
      * @brief Представление приложения
      */
     std::unique_ptr<ViewLayer::ApplicationView> m_view;
+
+    /**
+     * @brief Управляющие сетевым взаимодействием
+     */
+    std::unique_ptr<ManagementLayer::NetworkManager> m_networkManager;
 };
 
 } // namespace ManagementLayer
