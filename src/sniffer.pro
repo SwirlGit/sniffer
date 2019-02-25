@@ -34,6 +34,7 @@ RCC_DIR = resources
 SOURCES += \
     main.cpp \
     Application.cpp \
+    DataLayer/NetworkPackage.cpp \
     ManagementLayer/AbstractViewManager.cpp \
     ManagementLayer/ApplicationManager.cpp \
     ManagementLayer/NetworkManager.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
 
 HEADERS += \
     Application.h \
+    DataLayer/NetworkPackage.h \
     ManagementLayer/AbstractViewManager.h \
     ManagementLayer/ApplicationManager.h \
     ManagementLayer/NetworkManager.h \

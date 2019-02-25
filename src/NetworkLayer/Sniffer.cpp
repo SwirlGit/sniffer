@@ -4,6 +4,7 @@
 #include <QTimer>
 
 using NetworkLayer::Sniffer;
+using DataLayer::NetworkPackage;
 
 #define MAX_PACKET_SIZE    0x10000
 #define SIO_RCVALL         0x98000001
@@ -64,18 +65,52 @@ Sniffer::~Sniffer() {
     WSACleanup();
 }
 
+// FIXME: удалить вывод в лог
 void Sniffer::listen() {
     char buffer[MAX_PACKET_SIZE]; // 64 Kb
     const uint count = recv(m_socket, buffer, sizeof(buffer), 0);
     if (count >= sizeof(IPHeader)) {
         // Начинаем разбор пакета
+        NetworkPackage package;
+        QString logString;
         qDebug() << "Received package";
+
+        // Отправитель
         IPHeader* header = (IPHeader*)buffer;
         IN_ADDR inAddr;
         inAddr.s_addr = header->iph_src;
-        qDebug() << inet_ntoa(inAddr);
+        package.sender = inet_ntoa(inAddr);
+        logString += "Sender: " + package.sender + ";";
 
-        emit gotPackage();
+        // Получатель
+        inAddr.s_addr = header->iph_dest;
+        package.receiver = inet_ntoa(inAddr);
+        logString += " Receiver: " + package.receiver + ";";
+
+        // Протокол
+        if(header->iph_protocol == IPPROTO_TCP) {
+            package.protocol = "TCP";
+        } else if (header->iph_protocol == IPPROTO_UDP) {
+            package.protocol = "UDP";
+        } else {
+            package.protocol = "Unknown";
+        }
+        logString += " Protocol: " + package.protocol + ";";
+
+        // Размер
+        const ushort lowbyte = header->iph_length >> 8;
+        const ushort highbyte = header->iph_length << 8;
+        package.size = lowbyte + highbyte;
+        logString += " Size: " + QString::number(package.size) + ";";
+
+        // Время жизни
+        package.lifeTIme = header->iph_ttl;
+        logString += " LifeTime: " + QString::number(package.lifeTIme) + ";";
+
+        qDebug() << logString;
+
+        // Уведомляем подписчиков о получении пакета
+        emit gotPackage(package);
     }
     planNextCheck();
 }
