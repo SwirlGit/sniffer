@@ -10,7 +10,9 @@ class ApplicationView;
 }
 
 namespace ManagementLayer {
+class ConfigurationManager;
 class NetworkManager;
+class TrafficManager;
 }
 
 namespace ManagementLayer
@@ -43,9 +45,19 @@ private:
     std::unique_ptr<ViewLayer::ApplicationView> m_view;
 
     /**
-     * @brief Управляющие сетевым взаимодействием
+     * @brief Управляющий конфигурацией
+     */
+    std::unique_ptr<ManagementLayer::ConfigurationManager> m_configurationManager;
+
+    /**
+     * @brief Управляющий сетевым взаимодействием
      */
     std::unique_ptr<ManagementLayer::NetworkManager> m_networkManager;
+
+    /**
+     * @brief Управляющий трафиком
+     */
+    std::unique_ptr<ManagementLayer::TrafficManager> m_trafficManager;
 };
 
 } // namespace ManagementLayer
