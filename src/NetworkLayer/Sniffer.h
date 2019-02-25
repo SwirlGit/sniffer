@@ -5,6 +5,8 @@
 
 #include <winsock2.h>
 
+#include "DataLayer/NetworkPackage.h"
+
 namespace NetworkLayer
 {
 /**
@@ -32,14 +34,27 @@ public:
     explicit Sniffer();
     ~Sniffer();
 
+    /**
+     * @brief Запустить прослушивание
+     */
     void listen();
 
 signals:
-    void gotPackage();
+    /**
+     * @brief Сигнал о получении пакета
+     */
+    void gotPackage(DataLayer::NetworkPackage package);
 
 private:
+    /**
+     * @brief Запуск новой проверки на получение пакетов
+     */
     void planNextCheck();
+
 private:
+    /**
+     * @brief Сокет
+     */
     SOCKET m_socket;
 };
 
