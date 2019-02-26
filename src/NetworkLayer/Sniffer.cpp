@@ -109,13 +109,41 @@ void Sniffer::listen() {
 
         qDebug() << logString;
 
-        // Уведомляем подписчиков о получении пакета
-        emit gotPackage(package);
+        // Уведомляем подписчиков о получении пакета, если он подходит
+        if (isPackageFit(package)) {
+            emit gotPackage(package);
+        } else {
+            qDebug() << "Package is filtered";
+        }
     }
     planNextCheck();
+}
+
+void Sniffer::setSettings(const DataLayer::Settings& settings)
+{
+    m_isSettingsSet = true;
+    m_settings = settings;
 }
 
 void Sniffer::planNextCheck()
 {
     QTimer::singleShot(kListenUsualReplanningTimeoutMs, this, &Sniffer::listen);
+}
+
+bool Sniffer::isPackageFit(const DataLayer::NetworkPackage& package)
+{
+    // Если настройки не установлены, то и фильтровать нечем
+    if (!m_isSettingsSet) {
+        return true;
+    }
+
+    // Проверка фильтра по протоколу
+    const bool isProtocolFit = ((package.protocol == "TCP") && (m_settings.protocolFilter.tcp)) ||
+            ((package.protocol == "UDP") && (m_settings.protocolFilter.udp));
+
+    // Провекра фильтра по ip
+    const bool isIPFit = !m_settings.ipFilter.filter || m_settings.ipFilter.ips.contains(package.sender);
+
+    return isProtocolFit && isIPFit;
+
 }

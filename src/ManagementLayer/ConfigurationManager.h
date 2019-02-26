@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include "DataLayer/Settings.h"
+
 namespace ViewLayer {
 class ConfigurationView;
 }
@@ -26,6 +28,12 @@ public:
      * @brief Получить представление, которым управляем
      */
     QWidget* view() const override final;
+
+signals:
+    /**
+     * @brief applySettingsRequested
+     */
+    void applySettingsRequested(DataLayer::Settings settings);
 
 private:
     /**
