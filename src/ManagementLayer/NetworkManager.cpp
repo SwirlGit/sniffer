@@ -28,4 +28,9 @@ void NetworkManager::stop()
     m_snifferThread->wait();
 }
 
+void NetworkManager::configure(DataLayer::Settings settings)
+{
+    m_sniffer->setSettings(settings);
+}
+
 NetworkManager::~NetworkManager() = default;

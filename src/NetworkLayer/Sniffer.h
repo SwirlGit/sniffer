@@ -6,6 +6,7 @@
 #include <winsock2.h>
 
 #include "DataLayer/NetworkPackage.h"
+#include "DataLayer/Settings.h"
 
 namespace NetworkLayer
 {
@@ -39,11 +40,16 @@ public:
      */
     void listen();
 
+    /**
+     * @brief Установить настройки
+     */
+    void setSettings(const DataLayer::Settings& settings);
+
 signals:
     /**
      * @brief Сигнал о получении пакета
      */
-    void gotPackage(DataLayer::NetworkPackage package);
+    void gotPackage(const DataLayer::NetworkPackage& package);
 
 private:
     /**
@@ -51,11 +57,26 @@ private:
      */
     void planNextCheck();
 
+    /**
+     * @brief Удовлетворяет ли пакет конфигурации
+     */
+    bool isPackageFit(const DataLayer::NetworkPackage& package);
+
 private:
     /**
      * @brief Сокет
      */
     SOCKET m_socket;
+
+    /**
+     * @brief Установлены ли настройки
+     */
+    bool m_isSettingsSet = false;
+
+    /**
+     * @brief Настройки
+     */
+    DataLayer::Settings m_settings;
 };
 
 } // namespace ManagementLayer

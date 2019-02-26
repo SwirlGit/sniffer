@@ -7,7 +7,6 @@ class QPushButton;
 class QTextEdit;
 class QWidget;
 
-
 namespace ViewLayer
 {
 /**

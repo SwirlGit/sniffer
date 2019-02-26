@@ -5,6 +5,9 @@
 
 #include <memory>
 
+#include "DataLayer/NetworkPackage.h"
+#include "DataLayer/Settings.h"
+
 namespace NetworkLayer {
 class Sniffer;
 }
@@ -23,11 +26,26 @@ public:
     explicit NetworkManager(QObject* parent = nullptr);
     ~NetworkManager();
 
+    /**
+     * @brief Запустить работу
+     */
     void start();
+
+    /**
+     * @brief Остановить работу
+     */
     void stop();
 
+    /**
+     * @brief сконфигурировать фильтрацию
+     */
+    void configure(DataLayer::Settings settings);
+
 signals:
-    void gotPackage();
+    /**
+     * @brief Был получен пакет
+     */
+    void gotPackage(DataLayer::NetworkPackage package);
 
 private:
     /**

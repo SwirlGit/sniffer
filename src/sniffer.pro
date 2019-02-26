@@ -43,7 +43,8 @@ SOURCES += \
     NetworkLayer/Sniffer.cpp \
     ViewLayer/ApplicationView.cpp \
     ViewLayer/Configuration/ConfigurationView.cpp \
-    ViewLayer/Traffic/TrafficView.cpp
+    ViewLayer/Traffic/TrafficView.cpp \
+    DataLayer/Settings.cpp
 
 
 
@@ -62,5 +63,6 @@ HEADERS += \
     ViewLayer/Configuration/ConfigurationView.h \
     ViewLayer/Configuration/ConfigurationViewPrivate.h \
     ViewLayer/Traffic/TrafficView.h \
-    ViewLayer/Traffic/TrafficViewPrivate.h
+    ViewLayer/Traffic/TrafficViewPrivate.h \
+    DataLayer/Settings.h
 

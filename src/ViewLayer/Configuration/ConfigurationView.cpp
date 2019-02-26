@@ -7,6 +7,7 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+using DataLayer::Settings;
 using ViewLayer::ConfigurationViewPrivate;
 using ViewLayer::ConfigurationView;
 
@@ -39,6 +40,7 @@ ConfigurationView::ConfigurationView(QWidget *parent) :
     m_pimpl->ipTextEdit->setReadOnly(true);
     m_pimpl->restoreButton->setText("Restore");
     m_pimpl->applyButton->setText("Apply");
+    fillSettings();
 
     QVBoxLayout* groupBoxLayout = new QVBoxLayout;
     groupBoxLayout->addWidget(m_pimpl->tcpCheckBox);
@@ -70,9 +72,30 @@ ConfigurationView::ConfigurationView(QWidget *parent) :
     connect(m_pimpl->ipCheckBox, &QCheckBox::toggled, [this] (bool checked) {
         m_pimpl->ipTextEdit->setReadOnly(!checked);
     });
+    connect(m_pimpl->restoreButton, &QPushButton::clicked, this, &ConfigurationView::restoreSettings);
+    connect(m_pimpl->applyButton, &QPushButton::clicked, [this] {
+        fillSettings();
+        emit applySettingsPressed(settings);
+    });
 }
 
 ConfigurationView::~ConfigurationView()
 {
+}
 
+void ConfigurationView::fillSettings()
+{
+    settings.protocolFilter.tcp = m_pimpl->tcpCheckBox->isChecked();
+    settings.protocolFilter.udp = m_pimpl->udpCheckBox->isChecked();
+    settings.ipFilter.filter = m_pimpl->ipCheckBox->isChecked();
+    const QString ipsString = m_pimpl->ipTextEdit->toPlainText();
+    settings.ipFilter.ips = ipsString.split('\n', QString::SkipEmptyParts);
+}
+
+void ConfigurationView::restoreSettings()
+{
+    m_pimpl->tcpCheckBox->setChecked(settings.protocolFilter.tcp);
+    m_pimpl->udpCheckBox->setChecked(settings.protocolFilter.udp);
+    m_pimpl->ipCheckBox->setChecked(settings.ipFilter.filter);
+    m_pimpl->ipTextEdit->setText(settings.ipFilter.ips.join('\n'));
 }
