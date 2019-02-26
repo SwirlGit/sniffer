@@ -3,6 +3,7 @@
 
 class QCheckBox;
 class QGroupBox;
+class QPushButton;
 class QTextEdit;
 class QWidget;
 
@@ -41,6 +42,16 @@ struct ConfigurationViewPrivate
      * @brief список валидных ip в случае фильтрации
      */
     QTextEdit* ipTextEdit = nullptr;
+
+    /**
+     * @brief кнопка для восстановления настроек
+     */
+    QPushButton* restoreButton = nullptr;
+
+    /**
+     * @brief кнопка для подтверждения конфигурации
+     */
+    QPushButton* applyButton = nullptr;
 };
 }
 

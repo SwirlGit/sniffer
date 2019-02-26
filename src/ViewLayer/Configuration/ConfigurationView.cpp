@@ -3,6 +3,7 @@
 
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
@@ -15,7 +16,9 @@ ConfigurationViewPrivate::ConfigurationViewPrivate(QWidget* parent) :
     tcpCheckBox(new QCheckBox("TCP", parent)),
     udpCheckBox(new QCheckBox("UDP", parent)),
     ipCheckBox(new QCheckBox("IP filter", parent)),
-    ipTextEdit(new QTextEdit)
+    ipTextEdit(new QTextEdit(parent)),
+    restoreButton(new QPushButton(parent)),
+    applyButton(new QPushButton(parent))
 {
 }
 
@@ -34,6 +37,8 @@ ConfigurationView::ConfigurationView(QWidget *parent) :
     m_pimpl->udpCheckBox->setChecked(true);
     m_pimpl->ipCheckBox->setChecked(false);
     m_pimpl->ipTextEdit->setReadOnly(true);
+    m_pimpl->restoreButton->setText("Restore");
+    m_pimpl->applyButton->setText("Apply");
 
     QVBoxLayout* groupBoxLayout = new QVBoxLayout;
     groupBoxLayout->addWidget(m_pimpl->tcpCheckBox);
@@ -43,17 +48,23 @@ ConfigurationView::ConfigurationView(QWidget *parent) :
 
     QVBoxLayout* protocolLayout = new QVBoxLayout;
     protocolLayout->addWidget(m_pimpl->protocolFilterGroupBox);
-    protocolLayout->addStretch(1);
 
     QVBoxLayout* ipLayout = new QVBoxLayout;
     ipLayout->addWidget(m_pimpl->ipCheckBox);
     ipLayout->addWidget(m_pimpl->ipTextEdit);
-    ipLayout->addStretch(1);
 
-    QHBoxLayout* layout = new QHBoxLayout;
-    layout->addLayout(protocolLayout);
-    layout->addLayout(ipLayout);
-    layout->addStretch(1);
+    QHBoxLayout* settingsLayout = new QHBoxLayout;
+    settingsLayout->addLayout(protocolLayout);
+    settingsLayout->addLayout(ipLayout);
+
+    QHBoxLayout* buttonsLayout = new QHBoxLayout;
+    buttonsLayout->addStretch(1);
+    buttonsLayout->addWidget(m_pimpl->restoreButton);
+    buttonsLayout->addWidget(m_pimpl->applyButton);
+
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addLayout(settingsLayout, 1);
+    layout->addLayout(buttonsLayout);
     setLayout(layout);
 
     connect(m_pimpl->ipCheckBox, &QCheckBox::toggled, [this] (bool checked) {
