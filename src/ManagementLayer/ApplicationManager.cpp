@@ -1,22 +1,31 @@
 #include "ApplicationManager.h"
+#include "ConfigurationManager.h"
 #include "NetworkManager.h"
+#include "TrafficManager.h"
 
 #include "Application.h"
 
 #include "ViewLayer/ApplicationView.h"
 
 using ManagementLayer::ApplicationManager;
+using ManagementLayer::ConfigurationManager;
 using ManagementLayer::NetworkManager;
+using ManagementLayer::TrafficManager;
 using ViewLayer::ApplicationView;
 
 ApplicationManager::ApplicationManager(QObject* parent) :
     AbstractViewManager(parent),
     m_view(new ApplicationView),
-    m_networkManager(new NetworkManager(parent))
+    m_configurationManager(new ConfigurationManager(this)),
+    m_networkManager(new NetworkManager(this)),
+    m_trafficManager(new TrafficManager(this))
 {
-    m_networkManager->start();
-
     // Настраиваем представление
+    m_view->addContentPage("Configuration", m_configurationManager->view());
+    m_view->addContentPage("Report", m_trafficManager->view());
+
+    // Запускаем
+    m_networkManager->start();
 }
 
 ApplicationManager::~ApplicationManager() = default;

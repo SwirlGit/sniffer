@@ -37,9 +37,14 @@ SOURCES += \
     DataLayer/NetworkPackage.cpp \
     ManagementLayer/AbstractViewManager.cpp \
     ManagementLayer/ApplicationManager.cpp \
+    ManagementLayer/ConfigurationManager.cpp \
     ManagementLayer/NetworkManager.cpp \
+    ManagementLayer/TrafficManager.cpp \
     NetworkLayer/Sniffer.cpp \
-    ViewLayer/ApplicationView.cpp
+    ViewLayer/ApplicationView.cpp \
+    ViewLayer/Configuration/ConfigurationView.cpp \
+    ViewLayer/Traffic/TrafficView.cpp
+
 
 
 
@@ -48,7 +53,14 @@ HEADERS += \
     DataLayer/NetworkPackage.h \
     ManagementLayer/AbstractViewManager.h \
     ManagementLayer/ApplicationManager.h \
+    ManagementLayer/ConfigurationManager.h \
     ManagementLayer/NetworkManager.h \
+    ManagementLayer/TrafficManager.h \
     NetworkLayer/Sniffer.h \
     ViewLayer/ApplicationView.h \
-    ViewLayer/ApplicationViewPrivate.h
+    ViewLayer/ApplicationViewPrivate.h \
+    ViewLayer/Configuration/ConfigurationView.h \
+    ViewLayer/Configuration/ConfigurationViewPrivate.h \
+    ViewLayer/Traffic/TrafficView.h \
+    ViewLayer/Traffic/TrafficViewPrivate.h
+

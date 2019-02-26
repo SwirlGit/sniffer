@@ -4,3 +4,5 @@ build*
 # pro user файл
 **/*.pro.user
 
+# autosaves
+**/*.autosave
