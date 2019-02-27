@@ -5,9 +5,23 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+using DataLayer::NetworkPackage;
 using ViewLayer::TrafficViewPrivate;
 using ViewLayer::TrafficView;
 
+namespace {
+    const QVector<QString> sizeNames = {"byte", "Kb", "Mb", "Gb", "Tb"};
+
+    QString sizeToString(long long int size) {
+        int power = 0;
+        const int maxPower = sizeNames.size();
+        while ((size / 1024 > 0) && (power < maxPower - 1)) {
+            power++;
+            size /= 1024;
+        }
+        return QString::number(size) + " " + sizeNames[power];
+    }
+}
 
 TrafficViewPrivate::TrafficViewPrivate(QWidget* parent) :
     infoPanel(new QTextEdit(parent)),
@@ -42,4 +56,14 @@ TrafficView::TrafficView(QWidget *parent) :
 TrafficView::~TrafficView()
 {
 
+}
+
+void TrafficView::addPackage(const NetworkPackage& package)
+{
+    m_pimpl->infoPanel->append(package.toString());
+}
+
+void TrafficView::updateSize(long long size)
+{
+    m_pimpl->resultSize->setText(sizeToString(size));
 }

@@ -11,6 +11,8 @@ struct NetworkPackage {
     QString protocol;
     int size;
     int lifeTIme;
+
+    QString toString() const;
 };
 
 } // namespace DataLayer
