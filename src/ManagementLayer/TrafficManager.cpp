@@ -17,3 +17,10 @@ QWidget* TrafficManager::view() const
 {
     return m_view.get();
 }
+
+void TrafficManager::showPackage(const DataLayer::NetworkPackage& package)
+{
+    m_summaryPackageSize += package.size;
+    m_view->addPackage(package);
+    m_view->updateSize(m_summaryPackageSize);
+}

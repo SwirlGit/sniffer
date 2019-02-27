@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include "DataLayer/NetworkPackage.h"
+
 namespace ViewLayer
 {
 struct TrafficViewPrivate;
@@ -19,6 +21,16 @@ class TrafficView : public QFrame
 public:
     explicit TrafficView(QWidget* parent = nullptr);
     ~TrafficView();
+
+    /**
+     * @brief Добавить пакет для отображения
+     */
+    void addPackage(const DataLayer::NetworkPackage& package);
+
+    /**
+     * @brief Обновить отображаемый размер
+     */
+    void updateSize(long long int size);
 
 private:
     /**

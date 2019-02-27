@@ -3,6 +3,8 @@
 
 #include "AbstractViewManager.h"
 
+#include "DataLayer/NetworkPackage.h"
+
 #include <memory>
 
 namespace ViewLayer {
@@ -27,11 +29,21 @@ public:
      */
     QWidget* view() const override final;
 
+    /**
+     * @brief Отобразить полученный пакет
+     */
+    void showPackage(const DataLayer::NetworkPackage& package);
+
 private:
     /**
      * @brief Представление трафика
      */
     std::unique_ptr<ViewLayer::TrafficView> m_view;
+
+    /**
+     * @brief Суммарный размер полученных пакетов
+     */
+    long long int m_summaryPackageSize = 0;
 };
 
 } // namespace ManagementLayer
